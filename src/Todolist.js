@@ -1,19 +1,15 @@
 
-import React from "react";
-import Todo from "./Todo";
-
-class TodoList extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+import React, {useContext} from "react";
+import TodoComponent from "./Todo";
+import { todoListContext } from "./App";
 
 
-
-    // Props are immutable
-    render() {
-        const { todoList } = this.props;
-        console.log("todolist arrat", todoList);
-
+    function TodoListComponent () {
+        console.log("TodoListComponent render");
+        
+        const { state, dispatch } = useContext(todoListContext);
+        const { todoList} = state;
+        
         if(todoList && todoList.length === 0) {
             return <h3>...todolist is empty. Please add one</h3>
         }
@@ -23,18 +19,16 @@ class TodoList extends React.Component {
                 <ul>
                     {todoList.map((todo)=> {
                        return (
-                         <Todo
+                         <TodoComponent
                            key={todo}
                            todo={todo}
-                           deleteTodo={this.props.deleteTodo}
                          />
                        );
                     })}
                 </ul>
             </div>
-        )
+        );
     }
-}
 
-export default TodoList;
+export default React.memo(TodoListComponent);
 
